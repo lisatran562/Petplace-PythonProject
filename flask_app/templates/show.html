@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="./static/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Add your Pet</title>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between mt-4">
+            <div class="head_left">
+                <h1>Welcome {{user.first_name}}!</h1>
+            </div>
+            <div class="head_right">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/logout" class="ms-3">Logout</a>
+            </div>
+        </header>
+        {% for pets in pets %}
+        <div class="d-flex justify-content-apart mt-4">
+            <div>
+                <img src="../static/img/{{pets.image}}" class="mh-400" style="width: 400px; height: 400px;">
+            </div>
+            <div class="ms-4">
+                <div class="mt-5">
+                    <h3>About {{pets.name}}</h3>
+                </div>
+                <div>
+                    <p>Breed: {{pets.breed}}</p>
+                    <p>Age: {{pets.age}}</p>
+                    <p>Birthday: {{pets.birthday}}</p>
+                    <p>Likes: {{pets.likes}}</p>
+                    <p>{{pets.name}}'s parent: {{pets.user.first_name}} {{pets.user.last_name}}</p>
+                    <div>
+                        {% if pets.user_id == session['user_id'] %}
+                        <a href="/pet/{{pets.id}}/edit">edit</a> <a href="/pet/{{pets.id}}/delete">delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="ms-10">
+                <p><a href="#">My Furrriends ❤️</a></p>
+            </div>
+        </div>
+
+        <form action="/post/new" method="post">
+            <input type="hidden" name="id" id="id" value="{{pets.id}}">
+            <input type="hidden" name="pet_id" value="{{pets.id}}">
+            <input type="hidden" name="user_id" value="{{user.id}}">
+            <div class="activity_post mt-5">
+                <label for="post" name="post" id="post">Write a Post</label>
+                <textarea name="post" id="post" class="form-control" placeholder="Say hi!..."></textarea>
+                {% for message in get_flashed_messages(category_filter=['err_post_post']) %}
+                    <p class="alert alert-danger">{{ message }}</p>
+                {% endfor %}
+                <input type="submit" class="btn btn-sm btn-info mt-3" value="Submit">
+            </div>
+        </form>
+
+        <div class="paw_prints mt-5">
+            <h3>🐾Paw Prints🐾</h3>
+            
+            {% for post in post %}
+            {% if post.pet_id == pets.id %}
+            <div class="post border rounded p-2 mb-2">
+                <p>{{post.created_at}} <strong>{{post.user.first_name}} {{post.user.last_name}}</strong> says:</p>
+                <p>{{post.post}}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+        
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>

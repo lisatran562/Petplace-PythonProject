@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Add your Pet</title>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between">
+            <div class="head_left">
+                <h1>Welcome {{user.first_name}}!</h1>
+            </div>
+            <div class="head_right">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/logout" class="ms-3">Logout</a>
+            </div>
+        </header>
+        <div>
+            <h3 class="mt-5">Add your Pet information:</h3>
+        </div>
+        <div class="col-4">
+            <form action="/pet/add" method="post">
+                <div>
+                    <label for="name" name="name" id="name">Pet's Name:</label>
+                    <input type="text" name="name" class="form-control">
+                    {% for message in get_flashed_messages(category_filter=['err_pet_name']) %}
+                        <p class="alert alert-danger">{{ message }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="breed" name="breed" id="breed">Breed:</label>
+                    <input type="text" name="breed" class="form-control">
+                    {% for message in get_flashed_messages(category_filter=['err_pet_breed']) %}
+                        <p class="alert alert-danger">{{ message }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="age" name="age" id="age">Age:</label>
+                    <input type="number" name="age" class="form-control">
+                    {% for message in get_flashed_messages(category_filter=['err_pet_age']) %}
+                        <p class="alert alert-danger">{{ message }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="birthday" name="birthday" id="birthday">Birthday:</label>
+                    <input type="date" name="birthday" class="form-control">
+                    {% for message in get_flashed_messages(category_filter=['err_pet_birthday']) %}
+                        <p class="alert alert-danger">{{ message }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <label for="likes" name="likes" id="likes">Likes:</label>
+                    <textarea name="likes" id="likes" class="form-control"></textarea>
+                    {% for message in get_flashed_messages(category_filter=['err_pet_likes']) %}
+                        <p class="alert alert-danger">{{ message }}</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success mt-3">Add Furry Friend</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>
